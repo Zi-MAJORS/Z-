@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07111f">
+<meta name="description" content="Your personal JARVIS voice assistant">
+<link rel="manifest" href="manifest.json">
+<title>J.A.R.V.I.S.</title>
+<style>
+:root{color-scheme:dark;--bg:#07111f;--panel:#0d1b2d;--line:#173d5b;--cyan:#53dfff;--text:#e9f8ff;--muted:#9db9cb}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#102d47 0%,var(--bg) 58%);color:var(--text);font:16px system-ui,-apple-system,Roboto,sans-serif;min-height:100vh}
+main{max-width:720px;margin:auto;padding:22px 16px 36px}.top{text-align:center;padding:18px 0 20px}
+.orb{width:128px;height:128px;border:2px solid var(--cyan);border-radius:50%;margin:0 auto 15px;display:grid;place-items:center;box-shadow:0 0 24px #28bfe455,inset 0 0 22px #28bfe422;position:relative}
+.orb:before,.orb:after{content:"";position:absolute;border:1px solid #2c8fb8;border-radius:50%;inset:9px}.orb:after{inset:20px;border-style:dashed}
+.orb span{font-size:38px;color:var(--cyan);text-shadow:0 0 16px #53dfff}
+h1{font-size:27px;letter-spacing:5px;margin:0} .subtitle{color:var(--muted);font-size:13px;letter-spacing:2px;margin-top:6px}
+.status{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);padding:7px 12px;border-radius:30px;color:var(--muted);font-size:13px;margin-top:15px}
+.dot{width:8px;height:8px;border-radius:50%;background:#54e6a2;box-shadow:0 0 8px #54e6a2}
+.panel{background:#0a1726e8;border:1px solid var(--line);border-radius:18px;padding:15px;margin:12px 0}
+.label{font-size:12px;letter-spacing:1.6px;color:var(--cyan);font-weight:700;margin-bottom:10px}
+#reply{line-height:1.55;white-space:pre-wrap;min-height:46px}.hint{color:var(--muted);font-size:13px}
+button,input,textarea{font:inherit}button{border:1px solid #24749a;background:#102b42;color:var(--text);border-radius:12px;padding:12px 14px;cursor:pointer}
+button:active{transform:scale(.98)}button.primary{background:linear-gradient(135deg,#087aa0,#125079);border-color:var(--cyan);font-weight:700}
+button:disabled{opacity:.5}.row{display:flex;gap:9px;flex-wrap:wrap}.row button{flex:1;min-width:125px}
+#mic{width:100%;padding:17px;font-size:17px;border-radius:15px;margin-top:5px}
+input,textarea{width:100%;background:#06101c;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:12px;margin:5px 0 10px}
+small,.small{color:var(--muted);font-size:12px;line-height:1.5}details summary{cursor:pointer;color:var(--cyan);font-weight:650;padding:4px 0}
+footer{text-align:center;color:#7894a8;font-size:12px;margin-top:20px}
+</style>
+</head>
+<body>
+<main>
+  <header class="top">
+    <div class="orb"><span>J</span></div>
+    <h1>J.A.R.V.I.S.</h1>
+    <div class="subtitle">PERSONAL VOICE ASSISTANT</div>
+    <div class="status"><span class="dot" id="dot"></span><span id="status">SYSTEM READY</span></div>
+  </header>
+
+  <section class="panel">
+    <div class="label">ASSISTANT RESPONSE</div>
+    <div id="reply" aria-live="polite">Good day. JARVIS is online. Tap the microphone and give me a command.</div>
+    <p class="hint" id="heard">Try: “What time is it?”, “Search NDA syllabus”, or “Open YouTube”.</p>
+  </section>
+
+  <button class="primary" id="mic">🎙️ Tap to speak</button>
+  <div class="row" style="margin-top:10px">
+    <button id="typeBtn">⌨️ Type a command</button>
+    <button id="stopBtn">🔇 Stop speaking</button>
+  </div>
+  <div id="typedArea" hidden class="panel">
+    <label for="typed">Enter a command or question</label>
+    <input id="typed" placeholder="e.g. Search NDA 1 2027 syllabus">
+    <button class="primary" id="send">Send</button>
+  </div>
+
+  <section class="panel">
+    <div class="label">QUICK COMMANDS</div>
+    <div class="row">
+      <button data-command="What time is it?">🕒 Time</button>
+      <button data-command="Search NDA 1 2027 syllabus">🔎 Search web</button>
+      <button data-command="Open YouTube">▶️ YouTube</button>
+      <button data-command="Open Google">🌐 Google</button>
+    </div>
+    <p class="small">Phone note: websites open in your browser. Android does not allow a web app to control every app or setting; those actions need explicit Android permissions or a native app.</p>
+  </section>
+
+  <details class="panel">
+    <summary>AI setup (optional)</summary>
+    <p class="small">The app works without an AI key for voice, time, web search and website shortcuts. To enable AI answers, you can add a Gemini API key from Google AI Studio. A key stored in this browser can be exposed if the phone or browser profile is compromised; never publish this app with your personal key.</p>
+    <label for="apiKey">Gemini API key</label>
+    <input id="apiKey" type="password" autocomplete="off" placeholder="Paste key (optional)">
+    <label for="model">Model name</label>
+    <input id="model" value="gemini-2.5-flash">
+    <div class="row"><button id="saveKey">Save on this device</button><button id="forgetKey">Forget key</button></div>
+    <p class="small">AI use may have limits or costs depending on your account and model. Check Google AI Studio's current terms before use.</p>
+  </details>
+  <details class="panel">
+    <summary>Commands and limitations</summary>
+    <ul class="small">
+      <li>“Search [topic]” opens Google search results.</li>
+      <li>“Open YouTube / Google / Gmail” opens the website.</li>
+      <li>“What time is it?” gives your phone's current time.</li>
+      <li>General questions use Gemini only if you have configured a key.</li>
+      <li>Speech recognition requires a supported browser, usually Chrome on Android, and internet may be required.</li>
+      <li>For privacy, speech recognition may be processed by your browser's speech service.</li>
+    </ul>
+  </details>
+  <footer>JARVIS personal project • Free starter edition</footer>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const replyEl = $("reply"), statusEl = $("status"), heardEl = $("heard");
+let recognition = null;
+function setStatus(s, active=false){statusEl.textContent=s.toUpperCase();$("dot").style.background=active?"#53dfff":"#54e6a2";}
+function say(text){
+  replyEl.textContent=text;
+  if ("speechSynthesis" in window) {
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang="en-IN"; u.rate=0.94; u.pitch=0.9;
+    const voices=speechSynthesis.getVoices();
+    const chosen=voices.find(v=>v.lang==="en-IN")||voices.find(v=>v.lang.startsWith("en"));
+    if(chosen)u.voice=chosen;
+    speechSynthesis.speak(u);
+  }
+}
+function searchWeb(q){window.open("https://www.google.com/search?q="+encodeURIComponent(q),"_blank","noopener");}
+async function askGemini(question){
+  const key=$("apiKey").value.trim();
+  if(!key) return "I can do basic commands, but my AI brain is not configured. Add a Gemini API key in AI setup, or say Search followed by your question.";
+  const model=$("model").value.trim()||"gemini-2.5-flash";
+  try{
+    const r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+encodeURIComponent(model)+":generateContent?key="+encodeURIComponent(key),{
+      method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({contents:[{parts:[{text:"You are JARVIS, a concise, helpful voice assistant. Use clear spoken English, do not claim to perform actions you have not done. Answer this: "+question}]}]})
+    });
+    const data=await r.json();
+    if(!r.ok) throw new Error(data.error?.message||"API request failed");
+    return data.candidates?.[0]?.content?.parts?.map(p=>p.text||"").join("")||"I did not receive an answer.";
+  }catch(e){return "I couldn't get an AI answer: "+e.message+". You can still use Search commands.";}
+}
+async function handle(raw){
+  const c=raw.trim(), l=c.toLowerCase();
+  if(!c)return;
+  heardEl.textContent="You said: "+c;setStatus("Processing",true);
+  if(/^(hi|hello|hey jarvis)\b/i.test(l)){say("Hello. JARVIS is online and ready.");}
+  else if(l.includes("what time")||l==="time"||l.includes("current time")){
+    say("It is "+new Date().toLocaleTimeString([],{hour:"numeric",minute:"2-digit"})+".");
+  } else if(l.includes("what date")||l.includes("today's date")||l==="date"){
+    say("Today is "+new Date().toLocaleDateString("en-IN",{weekday:"long",year:"numeric",month:"long",day:"numeric"})+".");
+  } else if(l.startsWith("search ")||l.startsWith("google ")){
+    const q=c.replace(/^(search|google)\s+/i,"");
+    searchWeb(q);say("Opening Google search results for "+q+".");
+  } else if(l.startsWith("open ")){
+    const target=l.slice(5).trim();
+    const sites={youtube:"https://www.youtube.com",google:"https://www.google.com",gmail:"https://mail.google.com","google maps":"https://maps.google.com",spotify:"https://open.spotify.com",wikipedia:"https://www.wikipedia.org"};
+    if(sites[target]){window.open(sites[target],"_blank","noopener");say("Opening "+target+".");}
+    else {say("I don't have a shortcut for "+target+" yet. Try Open YouTube, Google, Gmail, Maps, Spotify, or Wikipedia.");}
+  } else if(l==="stop"||l==="stop speaking"||l==="be quiet"){speechSynthesis.cancel();replyEl.textContent="Speech stopped.";setStatus("Ready");return;}
+  else {say(await askGemini(c));}
+  setStatus("Ready");
+}
+function startListening(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){say("Speech recognition is not supported in this browser. Please use Chrome on Android, or use the type command button.");return;}
+  try{
+    recognition=new SR();recognition.lang="en-IN";recognition.interimResults=false;recognition.maxAlternatives=1;
+    recognition.onstart=()=>setStatus("Listening",true);
+    recognition.onerror=e=>{setStatus("Ready");say("Microphone error: "+e.error+". Check permission and try again.");};
+    recognition.onresult=e=>{const t=e.results[0][0].transcript;handle(t);};
+    recognition.onend=()=>{if(statusEl.textContent==="LISTENING")setStatus("Ready");};
+    recognition.start();
+  }catch(e){say("I couldn't start the microphone. Please try again.");setStatus("Ready");}
+}
+$("mic").addEventListener("click",startListening);
+$("typeBtn").addEventListener("click",()=>{$("typedArea").hidden=!$("typedArea").hidden;if(!$("typedArea").hidden)$("typed").focus();});
+$("send").addEventListener("click",()=>{const v=$("typed").value;$("typed").value="";handle(v);});
+$("typed").addEventListener("keydown",e=>{if(e.key==="Enter")$("send").click();});
+$("stopBtn").addEventListener("click",()=>{if("speechSynthesis"in window)speechSynthesis.cancel();setStatus("Ready");});
+document.querySelectorAll("[data-command]").forEach(b=>b.addEventListener("click",()=>handle(b.dataset.command)));
+$("saveKey").addEventListener("click",()=>{try{localStorage.setItem("jarvisGeminiKey",$("apiKey").value.trim());localStorage.setItem("jarvisGeminiModel",$("model").value.trim());say("AI settings saved on this device.");}catch(e){say("Could not save settings in this browser.");}});
+$("forgetKey").addEventListener("click",()=>{localStorage.removeItem("jarvisGeminiKey");localStorage.removeItem("jarvisGeminiModel");$("apiKey").value="";say("Saved AI key removed.");});
+$("apiKey").value=localStorage.getItem("jarvisGeminiKey")||"";
+$("model").value=localStorage.getItem("jarvisGeminiModel")||"gemini-2.5-flash";
+if("serviceWorker"in navigator && location.protocol.startsWith("http")) window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+</script>
+</body>
+</html>
