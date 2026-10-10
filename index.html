@@ -1,170 +1,329 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#07111f">
-<meta name="description" content="Your personal JARVIS voice assistant">
-<link rel="manifest" href="manifest.json">
-<title>ZI</title>
-<style>
-:root{color-scheme:dark;--bg:#07111f;--panel:#0d1b2d;--line:#173d5b;--cyan:#53dfff;--text:#e9f8ff;--muted:#9db9cb}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#102d47 0%,var(--bg) 58%);color:var(--text);font:16px system-ui,-apple-system,Roboto,sans-serif;min-height:100vh}
-main{max-width:720px;margin:auto;padding:22px 16px 36px}.top{text-align:center;padding:18px 0 20px}
-.orb{width:128px;height:128px;border:2px solid var(--cyan);border-radius:50%;margin:0 auto 15px;display:grid;place-items:center;box-shadow:0 0 24px #28bfe455,inset 0 0 22px #28bfe422;position:relative}
-.orb:before,.orb:after{content:"";position:absolute;border:1px solid #2c8fb8;border-radius:50%;inset:9px}.orb:after{inset:20px;border-style:dashed}
-.orb span{font-size:38px;color:var(--cyan);text-shadow:0 0 16px #53dfff}
-h1{font-size:27px;letter-spacing:5px;margin:0} .subtitle{color:var(--muted);font-size:13px;letter-spacing:2px;margin-top:6px}
-.status{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);padding:7px 12px;border-radius:30px;color:var(--muted);font-size:13px;margin-top:15px}
-.dot{width:8px;height:8px;border-radius:50%;background:#54e6a2;box-shadow:0 0 8px #54e6a2}
-.panel{background:#0a1726e8;border:1px solid var(--line);border-radius:18px;padding:15px;margin:12px 0}
-.label{font-size:12px;letter-spacing:1.6px;color:var(--cyan);font-weight:700;margin-bottom:10px}
-#reply{line-height:1.55;white-space:pre-wrap;min-height:46px}.hint{color:var(--muted);font-size:13px}
-button,input,textarea{font:inherit}button{border:1px solid #24749a;background:#102b42;color:var(--text);border-radius:12px;padding:12px 14px;cursor:pointer}
-button:active{transform:scale(.98)}button.primary{background:linear-gradient(135deg,#087aa0,#125079);border-color:var(--cyan);font-weight:700}
-button:disabled{opacity:.5}.row{display:flex;gap:9px;flex-wrap:wrap}.row button{flex:1;min-width:125px}
-#mic{width:100%;padding:17px;font-size:17px;border-radius:15px;margin-top:5px}
-input,textarea{width:100%;background:#06101c;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:12px;margin:5px 0 10px}
-small,.small{color:var(--muted);font-size:12px;line-height:1.5}details summary{cursor:pointer;color:var(--cyan);font-weight:650;padding:4px 0}
-footer{text-align:center;color:#7894a8;font-size:12px;margin-top:20px}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#070b14">
+  <title>Zi — Personal AI</title>
+  <style>
+    :root {
+      --bg: #070b14;
+      --panel: rgba(15, 24, 42, .84);
+      --line: rgba(87, 196, 255, .19);
+      --cyan: #65e4ff;
+      --blue: #748bff;
+      --muted: #8998b5;
+      --text: #edf6ff;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 50% -15%, #15375d 0, transparent 48%),
+        var(--bg);
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    button, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .app { max-width: 1000px; margin: auto; padding: 20px; }
+
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; padding: 10px 0 22px;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .logo {
+      width: 43px; height: 43px; display: grid; place-items: center;
+      border: 1px solid var(--cyan); border-radius: 14px;
+      color: var(--cyan); font-size: 23px; font-weight: 800;
+      box-shadow: 0 0 25px #37baff22, inset 0 0 16px #37baff18;
+    }
+    h1 { font-size: 23px; margin: 0; letter-spacing: 2px; }
+    .sub { font-size: 11px; color: var(--muted); letter-spacing: 2px; }
+    .status { color: #8fffd2; font-size: 12px; white-space: nowrap; }
+    .dot {
+      display: inline-block; width: 7px; height: 7px;
+      background: #55ffc0; border-radius: 50%; margin-right: 6px;
+      box-shadow: 0 0 10px #55ffc0;
+    }
+
+    .hero { text-align: center; padding: 27px 0 20px; }
+    .orb-wrap { height: 145px; display: grid; place-items: center; }
+    .orb {
+      width: 108px; height: 108px; border-radius: 50%;
+      position: relative;
+      background: radial-gradient(circle at 35% 28%, #d7ffff 0, #65e4ff 8%, #287dff 35%, #131b4b 68%, #080c19 76%);
+      box-shadow: 0 0 24px #32c8ff80, 0 0 70px #285aff42, inset -12px -15px 28px #0008;
+      animation: float 4s ease-in-out infinite;
+    }
+    .orb:before, .orb:after {
+      content: ""; position: absolute; inset: -10px;
+      border: 1px solid #65e4ff6c; border-radius: 50%;
+      transform: rotateX(67deg) rotate(-20deg);
+    }
+    .orb:after { inset: -18px; transform: rotateX(67deg) rotate(45deg); border-color: #748bff55; }
+    .listening .orb { animation: pulse .7s ease-in-out infinite alternate; }
+    @keyframes float { 50% { transform: translateY(-7px); } }
+    @keyframes pulse { to { transform: scale(1.08); filter: brightness(1.5); } }
+
+    .hero h2 { font-size: clamp(24px, 5vw, 34px); margin: 12px 0 7px; }
+    .hero p { color: var(--muted); margin: 0; font-size: 14px; }
+
+    .quick { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+    .chip, .secondary {
+      color: #cdeaff; border: 1px solid var(--line);
+      background: #111d30; border-radius: 20px; padding: 9px 13px;
+    }
+    .chip:hover, .secondary:hover { border-color: var(--cyan); }
+
+    .chat {
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: 22px; overflow: hidden;
+      box-shadow: 0 20px 80px #0005; backdrop-filter: blur(14px);
+    }
+    .chat-head {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 15px 17px; border-bottom: 1px solid var(--line);
+      font-size: 13px;
+    }
+    #messages {
+      min-height: 230px; max-height: 43vh; overflow-y: auto;
+      padding: 18px; display: flex; flex-direction: column; gap: 14px;
+    }
+    .msg {
+      max-width: 88%; white-space: pre-wrap; overflow-wrap: anywhere;
+      padding: 12px 14px; border-radius: 15px;
+      font-size: 14px; line-height: 1.6;
+    }
+    .assistant {
+      align-self: flex-start; background: #13243a;
+      border: 1px solid #65e4ff1b; border-top-left-radius: 4px;
+    }
+    .user {
+      align-self: flex-end; background: #243a70;
+      border: 1px solid #829aff35; border-top-right-radius: 4px;
+    }
+    .who { display: block; color: var(--cyan); font-size: 10px; letter-spacing: 1px; margin-bottom: 5px; }
+    .user .who { color: #c2cbff; }
+    .typing { color: var(--muted); font-size: 13px; padding: 0 18px 14px; }
+
+    .composer { padding: 13px; border-top: 1px solid var(--line); }
+    .input-row { display: flex; align-items: flex-end; gap: 9px; }
+    textarea {
+      flex: 1; min-width: 0; resize: none; max-height: 120px;
+      color: var(--text); background: #080f1c;
+      border: 1px solid #243b57; border-radius: 15px;
+      padding: 13px; outline: none;
+    }
+    textarea:focus { border-color: var(--cyan); }
+    .icon-btn, .send {
+      width: 45px; height: 45px; flex-shrink: 0;
+      border: 1px solid var(--line); border-radius: 14px;
+      background: #14243a; color: var(--cyan); font-size: 19px;
+    }
+    .send { background: linear-gradient(135deg, #35bde9, #6c78ff); color: white; border: 0; }
+    .icon-btn.active { background: #71334b; color: #fff; }
+    .tools { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 10px; }
+    .small { color: var(--muted); font-size: 11px; }
+    .toggles { display: flex; align-items: center; gap: 12px; }
+    .toggles label { color: var(--muted); font-size: 12px; display: flex; align-items: center; gap: 5px; }
+    input[type=checkbox] { accent-color: var(--cyan); }
+    footer { color: #64738e; font-size: 11px; text-align: center; padding: 18px 0; }
+
+    @media (max-width: 520px) {
+      .app { padding: 13px; }
+      .status { font-size: 10px; }
+      #messages { min-height: 210px; max-height: 45vh; padding: 13px; }
+      .msg { max-width: 94%; }
+      .small { max-width: 130px; }
+    }
+  </style>
 </head>
 <body>
-<main>
-  <header class="top">
-    <div class="orb"><span>J</span></div>
-    <h1>Zi</h1>
-    <div class="subtitle">PERSONAL VOICE ASSISTANT</div>
-    <div class="status"><span class="dot" id="dot"></span><span id="status">SYSTEM READY</span></div>
-  </header>
+  <main class="app">
+    <header>
+      <div class="brand">
+        <div class="logo">Z</div>
+        <div><h1>ZI</h1><div class="sub">PERSONAL AI SYSTEM</div></div>
+      </div>
+      <div class="status"><span class="dot"></span><span id="status">SYSTEM READY</span></div>
+    </header>
 
-  <section class="panel">
-    <div class="label">ASSISTANT RESPONSE</div>
-    <div id="reply" aria-live="polite">Good day. Zi is online. Tap the microphone and give me a command.</div>
-    <p class="hint" id="heard">Try: “What time is it?”, " Jishant , or “Open YouTube”.</p>
-  </section>
+    <section class="hero" id="hero">
+      <div class="orb-wrap"><div class="orb"></div></div>
+      <h2>I'm Zi. At your service.</h2>
+      <p>Your personal AI assistant. Ask me anything.</p>
+    </section>
 
-  <button class="primary" id="mic">🎙️ Tap to speak</button>
-  <div class="row" style="margin-top:10px">
-    <button id="typeBtn">⌨️ Type a command</button>
-    <button id="stopBtn">🔇 Stop speaking</button>
-  </div>
-  <div id="typedArea" hidden class="panel">
-    <label for="typed">Enter a command or question</label>
-    <input id="typed" placeholder="e.g. Search NDA 1 2027 syllabus">
-    <button class="primary" id="send">Send</button>
-  </div>
-
-  <section class="panel">
-    <div class="label">QUICK COMMANDS</div>
-    <div class="row">
-      <button data-command="What time is it?">🕒 Time</button>
-      <button data-command="Search NDA 1 2027 syllabus">🔎 Search web</button>
-      <button data-command="Open YouTube">▶️ YouTube</button>
-      <button data-command="Open Google">🌐 Google</button>
+    <div class="quick">
+      <button class="chip" data-prompt="Introduce yourself as Zi.">✦ Meet Zi</button>
+      <button class="chip" data-prompt="Give me a focused plan for today.">◷ Plan my day</button>
+      <button class="chip" data-prompt="Teach me something interesting in science.">⌁ Learn something</button>
     </div>
-    <p class="small">Phone note: websites open in your browser. Android does not allow a web app to control every app or setting; those actions need explicit Android permissions or a native app.</p>
-  </section>
 
-  <details class="panel">
-    <summary>AI setup (optional)</summary>
-    <p class="small">The app works without an AI key for voice, time, web search and website shortcuts. To enable AI answers, you can add a Gemini API key from Google AI Studio. A key stored in this browser can be exposed if the phone or browser profile is compromised; never publish this app with your personal key.</p>
-    <label for="apiKey">Gemini API key</label>
-    <input id="apiKey" type="password" autocomplete="off" placeholder="Paste key (optional)">
-    <label for="model">Model name</label>
-    <input id="model" value="gemini-3.8-flash>
-    <div class="row"><button id="saveKey">Save on this device</button><button id="forgetKey">Forget key</button></div>
-    <p class="small">AI use may have limits or costs depending on your account and model. Check Google AI Studio's current terms before use.</p>
-  </details>
-  <details class="panel">
-    <summary>Commands and limitations</summary>
-    <ul class="small">
-      <li>“Search [topic]” opens Google search results.</li>
-      <li>“Open YouTube / Google / Gmail” opens the website.</li>
-      <li>“What time is it?” gives your phone's current time.</li>
-      <li>General questions use Gemini only if you have configured a key.</li>
-      <li>Speech recognition requires a supported browser, usually Chrome on Android, and internet may be required.</li>
-      <li>For privacy, speech recognition may be processed by your browser's speech service.</li>
-    </ul>
-  </details>
-  <footer>JARVIS personal project • Free starter edition</footer>
-</main>
-<script>
-const $ = id => document.getElementById(id);
-const replyEl = $("reply"), statusEl = $("status"), heardEl = $("heard");
-let recognition = null;
-function setStatus(s, active=false){statusEl.textContent=s.toUpperCase();$("dot").style.background=active?"#53dfff":"#54e6a2";}
-function say(text){
-  replyEl.textContent=text;
-  if ("speechSynthesis" in window) {
-    speechSynthesis.cancel();
-    const u=new SpeechSynthesisUtterance(text);
-    u.lang="en-IN"; u.rate=0.94; u.pitch=0.9;
-    const voices=speechSynthesis.getVoices();
-    const chosen=voices.find(v=>v.lang==="en-IN")||voices.find(v=>v.lang.startsWith("en"));
-    if(chosen)u.voice=chosen;
-    speechSynthesis.speak(u);
-  }
-}
-function searchWeb(q){window.open("https://www.google.com/search?q="+encodeURIComponent(q),"_blank","noopener");}
-async function askGemini(question){
-  const key=$("apiKey").value.trim();
-  if(!key) return "I can do basic commands, but my AI brain is not configured. Add a Gemini API key in AI setup, or say Search followed by your question.";
-  const model=$("model").value.trim()||"gemini-2.5-flash";
-  try{
-    const r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+encodeURIComponent(model)+":generateContent?key="+encodeURIComponent(key),{
-      method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({contents:[{parts:[{text:"You are JARVIS, a concise, helpful voice assistant. Use clear spoken English, do not claim to perform actions you have not done. Answer this: "+question}]}]})
+    <section class="chat">
+      <div class="chat-head">
+        <span>◉ &nbsp; AI CONVERSATION</span>
+        <button id="clear" class="secondary">New chat</button>
+      </div>
+      <div id="messages" aria-live="polite">
+        <div class="msg assistant"><span class="who">ZI</span>Hey! I'm Zi, your AI assistant. Type a message or tap the microphone to speak. Connect my secure backend to bring me online.</div>
+      </div>
+      <div id="typing" class="typing" hidden>Zi is thinking…</div>
+      <div class="composer">
+        <div class="input-row">
+          <button id="mic" class="icon-btn" title="Speak" aria-label="Speak">🎙</button>
+          <textarea id="prompt" rows="1" placeholder="Message Zi…" aria-label="Message Zi"></textarea>
+          <button id="send" class="send" aria-label="Send">➤</button>
+        </div>
+        <div class="tools">
+          <span class="small">Enter to send · Shift+Enter for a new line</span>
+          <div class="toggles">
+            <label><input id="speak" type="checkbox" checked> Voice reply</label>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer>ZI AI · Made for exploration · AI can make mistakes</footer>
+  </main>
+
+  <script>
+    // After creating your Cloudflare Worker, paste its URL here.
+    const API_URL = "PASTE_CLOUDFLARE_WORKER_URL_HERE";
+
+    const $ = id => document.getElementById(id);
+    const messagesEl = $("messages");
+    const promptEl = $("prompt");
+    const history = [];
+    let busy = false;
+    let recognition = null;
+
+    function addMessage(role, text) {
+      const bubble = document.createElement("div");
+      bubble.className = "msg " + role;
+      const label = document.createElement("span");
+      label.className = "who";
+      label.textContent = role === "user" ? "YOU" : "ZI";
+      const content = document.createElement("span");
+      content.textContent = text;
+      bubble.append(label, content);
+      messagesEl.appendChild(bubble);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function setBusy(value) {
+      busy = value;
+      $("send").disabled = value;
+      $("send").style.opacity = value ? ".5" : "1";
+      $("typing").hidden = !value;
+      $("status").textContent = value ? "PROCESSING" : "SYSTEM READY";
+    }
+
+    async function sendMessage(text) {
+      text = text.trim();
+      if (!text || busy) return;
+
+      if (API_URL.includes("PASTE-CLOUDFLARE") ||
+          API_URL.includes("PASTE_CLOUDFLARE")) {
+        addMessage("user", text);
+        addMessage("assistant", "My backend isn't connected yet. Deploy the Cloudflare Worker, then paste its URL into API_URL in this file.");
+        promptEl.value = "";
+        return;
+      }
+
+      addMessage("user", text);
+      promptEl.value = "";
+      history.push({ role: "user", content: text });
+      setBusy(true);
+
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ messages: history.slice(-12) })
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Request failed");
+        if (!data.reply) throw new Error("Zi returned an empty reply.");
+
+        history.push({ role: "assistant", content: data.reply });
+        addMessage("assistant", data.reply);
+
+        if ($("speak").checked && "speechSynthesis" in window) {
+          window.speechSynthesis.cancel();
+          const utterance = new SpeechSynthesisUtterance(data.reply);
+          utterance.lang = "en-IN";
+          utterance.rate = 1;
+          window.speechSynthesis.speak(utterance);
+        }
+      } catch (error) {
+        addMessage("assistant", "I couldn't connect right now. Check your internet, Worker URL and backend settings. Details: " + error.message);
+        history.pop();
+      } finally {
+        setBusy(false);
+        promptEl.focus();
+      }
+    }
+
+    $("send").addEventListener("click", () => sendMessage(promptEl.value));
+    promptEl.addEventListener("keydown", event => {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage(promptEl.value);
+      }
     });
-    const data=await r.json();
-    if(!r.ok) throw new Error(data.error?.message||"API request failed");
-    return data.candidates?.[0]?.content?.parts?.map(p=>p.text||"").join("")||"I did not receive an answer.";
-  }catch(e){return "I couldn't get an AI answer: "+e.message+". You can still use Search commands.";}
-}
-async function handle(raw){
-  const c=raw.trim(), l=c.toLowerCase();
-  if(!c)return;
-  heardEl.textContent="You said: "+c;setStatus("Processing",true);
-  if(/^(hi|hello|hey jarvis)\b/i.test(l)){say("Hello. JARVIS is online and ready.");}
-  else if(l.includes("what time")||l==="time"||l.includes("current time")){
-    say("It is "+new Date().toLocaleTimeString([],{hour:"numeric",minute:"2-digit"})+".");
-  } else if(l.includes("what date")||l.includes("today's date")||l==="date"){
-    say("Today is "+new Date().toLocaleDateString("en-IN",{weekday:"long",year:"numeric",month:"long",day:"numeric"})+".");
-  } else if(l.startsWith("search ")||l.startsWith("google ")){
-    const q=c.replace(/^(search|google)\s+/i,"");
-    searchWeb(q);say("Opening Google search results for "+q+".");
-  } else if(l.startsWith("open ")){
-    const target=l.slice(5).trim();
-    const sites={youtube:"https://www.youtube.com",google:"https://www.google.com",gmail:"https://mail.google.com","google maps":"https://maps.google.com",spotify:"https://open.spotify.com",wikipedia:"https://www.wikipedia.org"};
-    if(sites[target]){window.open(sites[target],"_blank","noopener");say("Opening "+target+".");}
-    else {say("I don't have a shortcut for "+target+" yet. Try Open YouTube, Google, Gmail, Maps, Spotify, or Wikipedia.");}
-  } else if(l==="stop"||l==="stop speaking"||l==="be quiet"){speechSynthesis.cancel();replyEl.textContent="Speech stopped.";setStatus("Ready");return;}
-  else {say(await askGemini(c));}
-  setStatus("Ready");
-}
-function startListening(){
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){say("Speech recognition is not supported in this browser. Please use Chrome on Android, or use the type command button.");return;}
-  try{
-    recognition=new SR();recognition.lang="en-IN";recognition.interimResults=false;recognition.maxAlternatives=1;
-    recognition.onstart=()=>setStatus("Listening",true);
-    recognition.onerror=e=>{setStatus("Ready");say("Microphone error: "+e.error+". Check permission and try again.");};
-    recognition.onresult=e=>{const t=e.results[0][0].transcript;handle(t);};
-    recognition.onend=()=>{if(statusEl.textContent==="LISTENING")setStatus("Ready");};
-    recognition.start();
-  }catch(e){say("I couldn't start the microphone. Please try again.");setStatus("Ready");}
-}
-$("mic").addEventListener("click",startListening);
-$("typeBtn").addEventListener("click",()=>{$("typedArea").hidden=!$("typedArea").hidden;if(!$("typedArea").hidden)$("typed").focus();});
-$("send").addEventListener("click",()=>{const v=$("typed").value;$("typed").value="";handle(v);});
-$("typed").addEventListener("keydown",e=>{if(e.key==="Enter")$("send").click();});
-$("stopBtn").addEventListener("click",()=>{if("speechSynthesis"in window)speechSynthesis.cancel();setStatus("Ready");});
-document.querySelectorAll("[data-command]").forEach(b=>b.addEventListener("click",()=>handle(b.dataset.command)));
-$("saveKey").addEventListener("click",()=>{try{localStorage.setItem("jarvisGeminiKey",$("apiKey").value.trim());localStorage.setItem("jarvisGeminiModel",$("model").value.trim());say("AI settings saved on this device.");}catch(e){say("Could not save settings in this browser.");}});
-$("forgetKey").addEventListener("click",()=>{localStorage.removeItem("jarvisGeminiKey");localStorage.removeItem("jarvisGeminiModel");$("apiKey").value="";say("Saved AI key removed.");});
-$("apiKey").value=localStorage.getItem("jarvisGeminiKey")||"";
-$("model").value=localStorage.getItem("jarvisGeminiModel")||"gemini-2.5-flash";
-if("serviceWorker"in navigator && location.protocol.startsWith("http")) window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
-</script>
+    promptEl.addEventListener("input", () => {
+      promptEl.style.height = "auto";
+      promptEl.style.height = Math.min(promptEl.scrollHeight, 120) + "px";
+    });
+
+    $("clear").addEventListener("click", () => {
+      history.length = 0;
+      if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+      messagesEl.replaceChildren();
+      addMessage("assistant", "New conversation started. What shall we work on?");
+    });
+
+    document.querySelectorAll("[data-prompt]").forEach(button => {
+      button.addEventListener("click", () => sendMessage(button.dataset.prompt));
+    });
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      recognition = new SpeechRecognition();
+      recognition.lang = "en-IN";
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+      recognition.onstart = () => {
+        $("mic").classList.add("active");
+        $("hero").classList.add("listening");
+        $("status").textContent = "LISTENING";
+      };
+      recognition.onend = () => {
+        $("mic").classList.remove("active");
+        $("hero").classList.remove("listening");
+        $("status").textContent = "SYSTEM READY";
+      };
+      recognition.onresult = event => {
+        promptEl.value = event.results[0][0].transcript;
+        sendMessage(promptEl.value);
+      };
+      recognition.onerror = () => addMessage("assistant", "Voice input wasn't available. Check microphone permission or type your message instead.");
+      $("mic").addEventListener("click", () => {
+        try { recognition.start(); }
+        catch (_) { recognition.stop(); }
+      });
+    } else {
+      $("mic").addEventListener("click", () => {
+        addMessage("assistant", "Voice input isn't supported in this browser. Try Chrome or type your message.");
+      });
+    }
+  </script>
 </body>
-</html>
+            </html>
+  
