@@ -3,275 +3,457 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#080b12">
-<title>Zi AI — Personal Intelligence</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#080811">
+<meta name="description" content="Zi  — your intelligent AI companion">
+<title>Zi Ultra — Intelligence, Evolved</title>
 <style>
-:root{--bg:#080b12;--panel:#111725;--line:#252d40;--fg:#f4f5ff;--muted:#929db4;--a:#9c8cff;--b:#5ce4f5}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font:15px system-ui,sans-serif;height:100dvh}
-button,input,textarea{font:inherit}
-button{cursor:pointer;color:inherit}
-.app{display:flex;height:100dvh}
-.side{width:245px;flex-shrink:0;border-right:1px solid var(--line);padding:20px;background:#0c1019;display:flex;flex-direction:column;gap:12px}
-.brand{display:flex;align-items:center;gap:10px;font-size:24px;font-weight:850;margin-bottom:15px}
-.logo{width:39px;height:39px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--a),var(--b));color:#080b12;font-size:24px}
-.btn{background:var(--panel);border:1px solid var(--line);padding:11px;border-radius:12px;text-align:left}
-.btn:hover{border-color:var(--a)}
-.muted{color:var(--muted);font-size:12px}
-.bottom{margin-top:auto;display:grid;gap:10px}
-.main{min-width:0;flex:1;display:flex;flex-direction:column}
-header{height:64px;flex-shrink:0;border-bottom:1px solid var(--line);padding:0 18px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-.headname{font-weight:750}
-.status{color:#7de8ba;font-size:12px}
-.chat{flex:1;overflow:auto;padding:24px 14px}
-.inner{max-width:790px;margin:auto}
-.welcome{text-align:center;padding:6vh 0 28px}
-.orb{margin:0 auto 22px;width:76px;height:76px;border-radius:27px;display:grid;place-items:center;font-size:40px;background:radial-gradient(circle at 25% 20%,#c5bdff,#6151d5 48%,#13283b);box-shadow:0 0 65px #7e6cff26}
-h1{font-size:clamp(30px,6vw,46px);letter-spacing:-1.4px;margin:0 0 12px}
-.grad{background:linear-gradient(90deg,#b2a4ff,#62e4f5);color:transparent;background-clip:text}
-.welcome p{color:var(--muted)}
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left;margin-top:24px}
-.card{background:var(--panel);border:1px solid var(--line);padding:15px;border-radius:15px}
-.card b{display:block;margin-bottom:5px}
-.card small{color:var(--muted)}
-.msg{display:flex;gap:11px;margin:23px 0;align-items:flex-start}
-.avatar{width:32px;height:32px;flex-shrink:0;border-radius:11px;background:#202943;display:grid;place-items:center;font-size:12px}
-.msg.user .avatar{background:#52438c}
-.bubble{min-width:0;line-height:1.75;overflow-wrap:anywhere;white-space:pre-wrap}
-.bubble pre{background:#080b12;border:1px solid var(--line);padding:12px;border-radius:10px;overflow:auto;white-space:pre-wrap}
-.bubble code{background:#24283a;padding:2px 5px;border-radius:5px}
-.bubble a{color:var(--b)}
-.bubble img{max-width:100%;border-radius:10px}
-.actions{display:flex;gap:6px;margin-top:8px}
-.smallbtn{background:transparent;border:1px solid var(--line);border-radius:8px;padding:5px 8px;font-size:12px}
-.composewrap{padding:10px 14px 15px}
-.compose{max-width:790px;margin:auto;background:var(--panel);border:1px solid #303a50;border-radius:18px;padding:10px}
-#prompt{width:100%;background:transparent;color:var(--fg);border:0;outline:0;resize:none;min-height:43px;max-height:130px;padding:8px}
-.tools{display:flex;align-items:center;gap:7px}
-.tool{border:1px solid var(--line);background:#1b2233;border-radius:11px;min-width:39px;height:39px;padding:0 10px}
-.send{background:linear-gradient(135deg,var(--a),var(--b));color:#080b12;border:0;font-weight:900}
-.send:disabled{opacity:.4}
-#fileInfo{color:var(--b);font-size:12px;overflow-wrap:anywhere}
-.foot{text-align:center;color:#727d94;font-size:11px;margin-top:9px}
-.overlay{position:fixed;inset:0;background:#000b;display:none;place-items:center;padding:16px;z-index:5}
-.modal{width:100%;max-width:430px;background:#121827;border:1px solid var(--line);padding:22px;border-radius:18px}
-.modal input{width:100%;background:#080b12;color:white;border:1px solid var(--line);padding:12px;border-radius:10px;margin:10px 0}
-.modal button{margin-top:10px}
-body.light{--bg:#f4f6fc;--panel:#fff;--line:#dce1ee;--fg:#161a2a;--muted:#626d83}
-body.light .side{background:#edf0f8}
-body.light header{background:#f9faff}
-body.light .tool{background:#eef0f8}
-@media(max-width:650px){.side{display:none}header{height:57px;padding:0 12px}.chat{padding:16px 12px}.welcome{padding-top:5vh}.composewrap{padding:7px 9px 11px}.card{padding:12px}.tools{gap:5px}.hint{display:none!important}}
+:root {
+  --bg:#080811; --panel:#10101d; --line:#28263d;
+  --text:#f6f4ff; --muted:#9693b0;
+  --purple:#9b78ff; --cyan:#58e7ff;
+}
+* {box-sizing:border-box}
+body {
+  margin:0; min-height:100dvh; background:var(--bg); color:var(--text);
+  font-family:Inter,system-ui,-apple-system,sans-serif;
+  overflow:hidden;
+}
+button,textarea {font:inherit}
+button {cursor:pointer;color:inherit}
+.app {
+  height:100dvh; max-width:1000px; margin:auto; position:relative;
+  display:flex; flex-direction:column;
+  background:radial-gradient(ellipse at 50% -15%,#29204c 0,transparent 47%),var(--bg);
+}
+header {
+  display:flex;align-items:center;justify-content:space-between;
+  padding:calc(15px + env(safe-area-inset-top)) 18px 14px;
+  border-bottom:1px solid #ffffff0d;flex-shrink:0;
+}
+.brand {display:flex;align-items:center;gap:11px}
+.logo {
+  width:43px;height:43px;border-radius:15px;display:grid;place-items:center;
+  font-weight:900;font-size:21px;color:white;
+  background:linear-gradient(140deg,#aa83ff,#5740db 60%,#37cfea);
+  box-shadow:0 0 25px #8765ff40;
+}
+.brand h1 {font-size:18px;margin:0;letter-spacing:1.8px}
+.brand p {margin:4px 0 0;font-size:10px;letter-spacing:2px;color:var(--cyan)}
+.status {font-size:11px;color:#b8b2d0;display:flex;gap:7px;align-items:center}
+.dot {width:7px;height:7px;border-radius:50%;background:#56efad;box-shadow:0 0 9px #56efad}
+.icon-btn {
+  width:42px;height:42px;border:1px solid var(--line);border-radius:14px;
+  background:#ffffff06;font-size:18px;display:grid;place-items:center;
+}
+.top-actions {display:flex;gap:8px}
+.hero {text-align:center;padding:24px 16px 10px;flex-shrink:0}
+.orb-wrap {height:132px;display:grid;place-items:center;position:relative}
+.orb {
+  width:102px;height:102px;border-radius:50%;position:relative;
+  background:radial-gradient(circle at 32% 25%,#e0d5ff 0,#a28bff 12%,#7451e9 35%,#29204f 65%,#10101d 75%);
+  box-shadow:0 0 32px #926dff55,0 0 75px #7554ff22,inset -12px -9px 24px #090816;
+  animation:float 5s ease-in-out infinite;
+}
+.orb:before,.orb:after {
+  content:"";position:absolute;inset:-11px;border:1px solid #9d83ff48;
+  border-radius:50%;transform:rotateX(68deg) rotate(-20deg);
+}
+.orb:after {inset:-19px;transform:rotateX(68deg) rotate(48deg);border-color:#52dfff40}
+.orb.listening {box-shadow:0 0 35px #57e8ff99,0 0 90px #57e8ff45}
+@keyframes float {50%{transform:translateY(-6px)}}
+.hero h2 {font-size:clamp(23px,5vw,31px);margin:9px 0 7px;letter-spacing:-.8px}
+.gradient {
+  background:linear-gradient(90deg,#bba7ff,#63eaff);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero p {font-size:13px;color:var(--muted);margin:0}
+.chat {
+  flex:1;overflow-y:auto;padding:20px 16px 24px;scroll-behavior:smooth;
+  scrollbar-width:thin;scrollbar-color:#39314f transparent;
+}
+.welcome {max-width:520px;margin:0 auto}
+.welcome h3 {font-size:17px;margin:4px 0 8px}
+.welcome p {font-size:13px;line-height:1.7;color:var(--muted);margin:0 0 20px}
+.prompts {display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.prompt {
+  text-align:left;min-height:80px;padding:14px;border-radius:17px;
+  border:1px solid var(--line);background:linear-gradient(140deg,#ffffff08,#ffffff02);
+  transition:.2s;
+}
+.prompt:active {transform:scale(.97);border-color:var(--purple)}
+.prompt .emoji {font-size:20px}
+.prompt strong {display:block;font-size:12px;margin-top:10px}
+.prompt small {display:block;color:var(--muted);font-size:11px;margin-top:4px}
+.message {display:flex;gap:10px;margin:18px 0;align-items:flex-start}
+.message.user {justify-content:flex-end}
+.avatar {
+  flex-shrink:0;width:30px;height:30px;border-radius:11px;
+  display:grid;place-items:center;font-size:12px;font-weight:800;
+  background:linear-gradient(140deg,#a68aff,#5240c9);
+}
+.bubble {
+  max-width:85%;min-width:0;border:1px solid var(--line);
+  border-radius:5px 17px 17px 17px;padding:12px 14px;
+  font-size:14px;line-height:1.65;overflow-wrap:anywhere;white-space:pre-wrap;
+  background:#ffffff06;
+}
+.user .bubble {border-radius:17px 5px 17px 17px;background:#7354df20;border-color:#8b72ed45}
+.bubble pre {white-space:pre-wrap;overflow-wrap:anywhere}
+.msg-tools {display:flex;gap:12px;margin:7px 0 0;font-size:11px;color:var(--muted)}
+.msg-tools button {border:0;background:none;padding:3px;color:inherit}
+.typing {display:flex;gap:5px;padding:6px}
+.typing span {width:6px;height:6px;border-radius:50%;background:var(--cyan);animation:blink 1s infinite alternate}
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes blink {to{opacity:.2;transform:translateY(-4px)}}
+.composer-area {
+  padding:10px 14px calc(12px + env(safe-area-inset-bottom));
+  border-top:1px solid #ffffff0d;background:#090912ed;flex-shrink:0;
+}
+.composer {
+  max-width:720px;margin:auto;border:1px solid #39334e;border-radius:23px;
+  background:#151421;padding:8px;box-shadow:0 8px 35px #0005;
+}
+.composer:focus-within {border-color:#8066d9;box-shadow:0 0 0 3px #9275ff12}
+#input {
+  width:100%;resize:none;max-height:130px;min-height:43px;padding:11px 10px;
+  border:0;outline:0;background:transparent;color:var(--text);
+  font-size:14px;line-height:1.5;
+}
+#input::placeholder {color:#77738f}
+.controls {display:flex;align-items:center;justify-content:space-between;gap:8px}
+.control-group {display:flex;gap:5px}
+.mini {
+  height:37px;min-width:38px;border:0;border-radius:12px;background:transparent;
+  color:#b9b2d0;font-size:16px;
+}
+.mini.active {background:#493a73;color:#fff}
+.send {
+  height:39px;min-width:47px;border:0;border-radius:13px;
+  background:linear-gradient(135deg,#ad8aff,#6950e7);
+  color:white;font-size:18px;box-shadow:0 0 20px #8868f630;
+}
+.send:disabled {opacity:.5}
+.disclaimer {font-size:10px;text-align:center;color:#716d86;margin:9px 0 0}
+.toast {
+  position:absolute;top:80px;left:50%;transform:translateX(-50%);
+  background:#242137;border:1px solid #45405d;padding:10px 15px;
+  border-radius:12px;font-size:12px;display:none;z-index:5;
+  max-width:90%;text-align:center;
+}
+@media(min-width:700px) {
+  .app {border-left:1px solid #ffffff0a;border-right:1px solid #ffffff0a}
+  header {padding-left:25px;padding-right:25px}
+  .hero {padding-top:30px}
+  .chat {padding-left:30px;padding-right:30px}
+  .composer-area {padding-left:24px;padding-right:24px}
+}
+@media(max-height:700px) {
+  .hero {padding-top:9px}
+  .orb-wrap {height:86px}
+  .orb {width:65px;height:65px}
+  .orb:before {inset:-8px}.orb:after {inset:-14px}
+  .hero h2 {font-size:23px;margin-top:5px}
+  .hero p {font-size:11px}
+}
 </style>
 </head>
 <body>
 <div class="app">
-<aside class="side">
- <div class="brand"><span class="logo">✦</span> Zi AI</div>
- <button class="btn" id="new">＋ New conversation</button>
- <div class="muted">YOUR PERSONAL AI</div>
- <div class="muted">Think. Learn. Create. Build.</div>
- <div class="bottom">
-  <button class="btn" id="export">⇩ Export conversation</button>
-  <button class="btn" id="theme">◐ Switch theme</button>
-  <button class="btn" id="settings">⚙ Gemini settings</button>
-  <div class="muted">Zi AI · Personal edition</div>
- </div>
-</aside>
-<main class="main">
-<header>
- <div class="headname">✦ Zi AI <span class="muted">/ Intelligence</span></div>
- <div style="display:flex;gap:12px;align-items:center">
-  <span class="status" id="status">● Ready</span>
-  <button class="tool" id="settings2" aria-label="Settings">⚙</button>
- </div>
-</header>
-<section class="chat" id="chat"><div class="inner" id="messages">
-<div class="welcome" id="welcome">
- <div class="orb">✦</div>
- <h1>Your ideas, <span class="grad">amplified.</span></h1>
- <p>I'm Zi. What shall we explore today?</p>
- <div class="cards">
- <button class="card" data-p="Teach me an interesting topic step by step."><b>✧ Learn anything</b><small>Understand difficult concepts</small></button>
- <button class="card" data-p="Help me build a modern software project."><b>⌘ Build & code</b><small>Plan, debug and create</small></button>
- <button class="card" data-p="Help me plan my day and prioritize tasks."><b>◷ Plan my day</b><small>Turn goals into action</small></button>
- <button class="card" data-p="Let's brainstorm some original ideas."><b>✎ Create ideas</b><small>Write, imagine and improve</small></button>
- </div>
-</div>
-</div></section>
-<footer class="composewrap">
- <div class="compose">
-  <div id="fileInfo"></div>
-  <textarea id="prompt" placeholder="Ask Zi anything..." rows="1"></textarea>
-  <div class="tools">
-   <button class="tool" id="attach" title="Attach image or PDF">＋</button>
-   <input id="file" type="file" accept="image/*,application/pdf" hidden>
-   <button class="tool" id="mic" title="Voice input">🎙</button>
-   <button class="tool" id="speak" title="Toggle spoken answers">🔊</button>
-   <span class="muted hint" style="margin-left:auto">Enter ↵</span>
-   <button class="tool send" id="send" aria-label="Send">➤</button>
-  </div>
- </div>
- <div class="foot">Verify important information. API usage may incur charges.</div>
-</footer>
-</main></div>
+  <header>
+    <div class="brand">
+      <div class="logo">Z</div>
+      <div><h1>ZI <span class="gradient">ULTRA</span></h1>
+      <p>INTELLIGENCE, EVOLVED</p></div>
+    </div>
+    <div class="top-actions">
+      <div class="status"><span class="dot"></span><span id="status">READY</span></div>
+      <button class="icon-btn" id="newChat" aria-label="New chat">＋</button>
+    </div>
+  </header>
 
-<div class="overlay" id="overlay"><div class="modal">
-<h2 style="margin-top:0">Zi settings</h2>
-<p class="muted">Connect your Google Gemini API key.</p>
-<label for="key">Gemini API key</label>
-<input id="key" type="password" autocomplete="off" placeholder="Paste key here">
-<p class="muted">Stored for this browser tab only. Direct browser API use exposes the key to the browser and network tools.</p>
-<label for="level">Thinking level</label>
-<select id="level" style="width:100%;padding:10px;border-radius:9px;background:var(--bg);color:var(--fg);border:1px solid var(--line)">
-<option value="low">Low — faster</option><option value="medium" selected>Medium — balanced</option><option value="high">High — deeper reasoning</option>
-</select>
-<div style="display:flex;gap:8px">
-<button class="btn" id="cancel">Cancel</button>
-<button class="btn" id="save" style="background:#8171ff;color:white">Save settings</button>
+  <div id="toast" class="toast" role="status"></div>
+
+  <section class="hero">
+    <div class="orb-wrap"><div class="orb" id="orb"></div></div>
+    <h2>Your world. <span class="gradient">Your intelligence.</span></h2>
+    <p id="subtitle">Ask anything. Imagine everything.</p>
+  </section>
+
+  <main class="chat" id="chat" aria-live="polite">
+    <section class="welcome" id="welcome">
+      <h3>What are we exploring today?</h3>
+      <p>Your personal AI space for ideas, learning, creativity and problem-solving. Start with a prompt or ask your own question.</p>
+      <div class="prompts">
+        <button class="prompt" data-prompt="Explain a difficult topic in simple words.">
+          <span class="emoji">✦</span><strong>Learn something</strong><small>Understand any topic</small>
+        </button>
+        <button class="prompt" data-prompt="Help me brainstorm a truly original project idea.">
+          <span class="emoji">◈</span><strong>Creative mode</strong><small>Turn ideas into reality</small>
+        </button>
+        <button class="prompt" data-prompt="Help me write clean, modern code for a project.">
+          <span class="emoji">⌘</span><strong>Code assistant</strong><small>Build something useful</small>
+        </button>
+        <button class="prompt" data-prompt="Help me create a focused study plan for today.">
+          <span class="emoji">◎</span><strong>Focus mode</strong><small>Plan your next move</small>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="composer-area">
+    <form class="composer" id="form">
+      <textarea id="input" rows="1" maxlength="12000"
+        placeholder="Message Zi Ultra..." aria-label="Message Zi Ultra"></textarea>
+      <div class="controls">
+        <div class="control-group">
+          <button type="button" class="mini" id="voice" title="Voice input" aria-label="Voice input">🎙</button>
+          <button type="button" class="mini" id="clear" title="Clear input" aria-label="Clear input">⌫</button>
+        </div>
+        <button class="send" id="send" type="submit" aria-label="Send message">↑</button>
+      </div>
+    </form>
+    <p class="disclaimer">ZI ULTRA · AI CAN MAKE MISTAKES · THINK SMART</p>
+  </footer>
 </div>
-<p><a style="color:var(--b)" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Get a Gemini API key ↗</a></p>
-</div></div>
 
 <script>
-(() => {
+"use strict";
+
+/* Set this to your deployed backend endpoint.
+   Never put your Gemini API key in this file. */
+const API_URL = "PASTE_YOUR_CLOUDFLARE_WORKER_URL_HERE";
+
 const $ = id => document.getElementById(id);
-const messages = $('messages'), prompt = $('prompt');
-let history = [], attachment = null, busy = false, speakAnswers = false;
+const chat = $("chat"), input = $("input");
+let history = [];
+let busy = false;
+let recognition = null;
 
-function status(t, c='#7de8ba') {
- $('status').textContent='● '+t; $('status').style.color=c;
+function notify(message) {
+  const el = $("toast");
+  el.textContent = message;
+  el.style.display = "block";
+  clearTimeout(notify.timer);
+  notify.timer = setTimeout(() => el.style.display = "none", 3500);
 }
-function settings() {
- $('key').value=sessionStorage.getItem('zi_key')||'';
- $('overlay').style.display='grid';
-}
-$('settings').onclick=$('settings2').onclick=settings;
-$('cancel').onclick=()=> $('overlay').style.display='none';
-$('overlay').onclick=e=>{if(e.target===$('overlay')) $('overlay').style.display='none'};
-$('save').onclick=()=>{
- const k=$('key').value.trim();
- if(k) sessionStorage.setItem('zi_key',k);
- else sessionStorage.removeItem('zi_key');
- sessionStorage.setItem('zi_level',$('level').value);
- $('overlay').style.display='none'; status(k?'Settings saved':'API key removed');
-};
 
-function add(role, text, imageUrl) {
- $('welcome')?.remove();
- const row=document.createElement('div');
- row.className='msg '+role;
- const av=document.createElement('div'); av.className='avatar';
- av.textContent=role==='user'?'YOU':'✦';
- const b=document.createElement('div'); b.className='bubble';
- b.textContent=text;
- if(imageUrl && role==='user') {
-  const im=document.createElement('img'); im.src=imageUrl; im.alt='Attached image';
-  im.style.display='block'; im.style.maxWidth='200px'; im.style.marginTop='8px';
-  b.appendChild(im);
- }
- row.append(av,b); messages.appendChild(row);
- $('chat').scrollTop=$('chat').scrollHeight;
- return b;
+function scrollDown() {
+  requestAnimationFrame(() => chat.scrollTop = chat.scrollHeight);
 }
-function reset(){
- if(busy)return;
- history=[]; attachment=null; $('fileInfo').textContent='';
- messages.innerHTML=`<div class="welcome" id="welcome"><div class="orb">✦</div><h1>Your ideas, <span class="grad">amplified.</span></h1><p>I'm Zi. What shall we explore today?</p><div class="cards">
- <button class="card" data-p="Teach me an interesting topic step by step."><b>✧ Learn anything</b><small>Understand difficult concepts</small></button>
- <button class="card" data-p="Help me build a modern software project."><b>⌘ Build & code</b><small>Plan, debug and create</small></button>
- <button class="card" data-p="Help me plan my day and prioritize tasks."><b>◷ Plan my day</b><small>Turn goals into action</small></button>
- <button class="card" data-p="Let's brainstorm some original ideas."><b>✎ Create ideas</b><small>Write, imagine and improve</small></button></div></div>`;
- status('Ready');
+
+function addMessage(role, text) {
+  $("welcome")?.remove();
+
+  const row = document.createElement("div");
+  row.className = "message " + (role === "user" ? "user" : "assistant");
+
+  if (role !== "user") {
+    const avatar = document.createElement("div");
+    avatar.className = "avatar";
+    avatar.textContent = "Z";
+    row.appendChild(avatar);
+  }
+
+  const wrap = document.createElement("div");
+  const bubble = document.createElement("div");
+  bubble.className = "bubble";
+  bubble.textContent = text;
+  wrap.appendChild(bubble);
+
+  if (role !== "user") {
+    const tools = document.createElement("div");
+    tools.className = "msg-tools";
+
+    const copy = document.createElement("button");
+    copy.textContent = "Copy response";
+    copy.onclick = async () => {
+      try {
+        await navigator.clipboard.writeText(text);
+        notify("Response copied");
+      } catch {
+        notify("Copy unavailable. Select the response text instead.");
+      }
+    };
+    tools.appendChild(copy);
+    wrap.appendChild(tools);
+  }
+
+  row.appendChild(wrap);
+  chat.appendChild(row);
+  scrollDown();
+  return row;
 }
-$('new').onclick=reset;
-$('theme').onclick=()=>document.body.classList.toggle('light');
-$('export').onclick=()=>{
- const content=history.map(m=>(m.role==='user'?'You':'Zi')+': '+m.parts.map(p=>p.text||'[attachment]').join('\n')).join('\n\n');
- const blob=new Blob([content],{type:'text/plain'});
- const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
- a.download='zi-conversation.txt'; a.click(); URL.revokeObjectURL(a.href);
-};
-document.addEventListener('click',e=>{
- const c=e.target.closest('[data-p]');
- if(c){prompt.value=c.dataset.p;prompt.focus();prompt.dispatchEvent(new Event('input'))}
+
+function setBusy(value) {
+  busy = value;
+  $("send").disabled = value;
+  $("status").textContent = value ? "THINKING" : "READY";
+  $("orb").classList.toggle("listening", value);
+  $("subtitle").textContent = value
+    ? "Zi is processing your message..."
+    : "Ask anything. Imagine everything.";
+}
+
+function showTyping() {
+  const row = document.createElement("div");
+  row.className = "message";
+  row.id = "typing";
+  const avatar = document.createElement("div");
+  avatar.className = "avatar";
+  avatar.textContent = "Z";
+  const dots = document.createElement("div");
+  dots.className = "bubble typing";
+  dots.innerHTML = "<span></span><span></span><span></span>";
+  row.append(avatar, dots);
+  chat.appendChild(row);
+  scrollDown();
+}
+
+async function sendMessage(text) {
+  text = text.trim();
+  if (!text || busy) return;
+
+  if (!/^https?:\/\//i.test(API_URL) ||
+      API_URL.includes("PASTE_YOUR")) {
+    notify("First add your deployed backend URL in API_URL.");
+    return;
+  }
+
+  addMessage("user", text);
+  input.value = "";
+  input.style.height = "auto";
+  setBusy(true);
+  showTyping();
+
+  try {
+    // The backend should accept {message, history}.
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        message: text,
+        history: history.slice(-20)
+      })
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      throw new Error(data.error || data.message ||
+        "Backend request failed (" + response.status + ")");
+    }
+
+    // Supports common backend response formats.
+    const reply = data.reply ?? data.response ?? data.text ??
+      data.candidates?.[0]?.content?.parts?.map(p => p.text || "").join("");
+
+    if (typeof reply !== "string" || !reply.trim()) {
+      throw new Error("No reply received. Check your backend response format.");
+    }
+
+    history.push(
+      {role: "user", content: text},
+      {role: "assistant", content: reply}
+    );
+    history = history.slice(-40);
+    $("typing")?.remove();
+    addMessage("assistant", reply);
+
+  } catch (error) {
+    $("typing")?.remove();
+    addMessage("assistant", "I couldn't connect to the AI backend.\n\n" +
+      error.message +
+      "\n\nCheck your Worker URL, backend logs, API key configuration and CORS settings.");
+  } finally {
+    setBusy(false);
+  }
+}
+
+$("form").addEventListener("submit", event => {
+  event.preventDefault();
+  sendMessage(input.value);
 });
 
-$('attach').onclick=()=>$('file').click();
-$('file').onchange=async e=>{
- const f=e.target.files[0]; if(!f)return;
- if(f.size>10*1024*1024){alert('Please select a file under 10 MB.');e.target.value='';return}
- if(!(f.type.startsWith('image/')||f.type==='application/pdf')){alert('Images and PDFs only.');return}
- try{
-  const data=await new Promise((resolve,reject)=>{
-   const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(f);
-  });
-  attachment={name:f.name,mime:f.type,data:data.split(',')[1],url:f.type.startsWith('image/')?data:null};
-  $('fileInfo').textContent='Attached: '+f.name+' · tap ＋ to replace';
- }catch{alert('Could not read that file.')}
-};
+input.addEventListener("input", () => {
+  input.style.height = "auto";
+  input.style.height = Math.min(input.scrollHeight, 130) + "px";
+});
 
-async function ask(){
- const text=prompt.value.trim();
- if((!text&&!attachment)||busy)return;
- const key=sessionStorage.getItem('zi_key');
- if(!key){settings();status('Add API key first','#ffbd78');return}
- const currentAttachment=attachment; attachment=null;
- $('fileInfo').textContent=''; $('file').value='';
- prompt.value=''; prompt.style.height='auto';
- add('user',text||'Please analyze this attachment.',currentAttachment?.url);
- const parts=[];
- if(text)parts.push({text});
- if(currentAttachment)parts.push({inlineData:{mimeType:currentAttachment.mime,data:currentAttachment.data}});
- history.push({role:'user',parts});
- busy=true;$('send').disabled=true;status('Thinking...','#b2a4ff');
- const bubble=add('model','Zi is thinking…');
- try{
-  const body={
-   systemInstruction:{parts:[{text:'You are Zi, a helpful and capable personal AI assistant. Answer clearly, accurately, and naturally. Match the user language, including Hindi and Hinglish. For code, provide complete, practical solutions. Never claim you performed an action you did not perform.'}]},
-   contents:history,
-   generationConfig:{temperature:0.7,maxOutputTokens:4096,thinkingConfig:{thinkingLevel:sessionStorage.getItem('zi_level')||'medium'}}
-  };
-  const res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent',{
-   method:'POST',
-   headers:{'Content-Type':'application/json','x-goog-api-key':key},
-   body:JSON.stringify(body)
+input.addEventListener("keydown", event => {
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();
+    $("form").requestSubmit();
+  }
+});
+
+document.querySelectorAll("[data-prompt]").forEach(button => {
+  button.addEventListener("click", () => {
+    input.value = button.dataset.prompt;
+    input.focus();
+    input.dispatchEvent(new Event("input"));
   });
-  const data=await res.json();
-  if(!res.ok)throw Error(data?.error?.message||('HTTP '+res.status));
-  const answer=(data.candidates?.[0]?.content?.parts||[]).filter(p=>p.text).map(p=>p.text).join('\n').trim();
-  if(!answer)throw Error('No text returned. Check model access and API quota.');
-  bubble.textContent=answer;
-  history.push({role:'model',parts:[{text:answer}]});
-  const actions=document.createElement('div');actions.className='actions';
-  const copy=document.createElement('button');copy.className='smallbtn';copy.textContent='Copy answer';
-  copy.onclick=async()=>{try{await navigator.clipboard.writeText(answer);copy.textContent='Copied'}catch{copy.textContent='Copy unavailable'}};
-  const read=document.createElement('button');read.className='smallbtn';read.textContent='🔊 Read aloud';
-  read.onclick=()=>{speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance(answer))};
-  actions.append(copy,read);bubble.appendChild(actions);
-  if(speakAnswers&&'speechSynthesis'in window)speechSynthesis.speak(new SpeechSynthesisUtterance(answer));
-  status('Ready');
- }catch(err){
-  bubble.textContent='Zi could not complete the request.\n\n'+err.message+'\n\nCheck the API key, model availability, internet connection and quota.';
-  history.pop();status('Request failed','#ff9292');
- }finally{busy=false;$('send').disabled=false;prompt.focus();$('chat').scrollTop=$('chat').scrollHeight}
+});
+
+$("newChat").addEventListener("click", () => {
+  if (busy) return notify("Wait for the current response to finish.");
+  history = [];
+  chat.replaceChildren();
+
+  const welcome = document.createElement("section");
+  welcome.className = "welcome";
+  const heading = document.createElement("h3");
+  heading.textContent = "A fresh start.";
+  const paragraph = document.createElement("p");
+  paragraph.textContent = "What would you like to discover today?";
+  welcome.append(heading, paragraph);
+  chat.appendChild(welcome);
+  scrollDown();
+});
+
+$("clear").addEventListener("click", () => {
+  input.value = "";
+  input.style.height = "auto";
+  input.focus();
+});
+
+const SpeechRecognition =
+  window.SpeechRecognition || window.webkitSpeechRecognition;
+
+if (SpeechRecognition) {
+  recognition = new SpeechRecognition();
+  recognition.lang = "en-IN";
+  recognition.interimResults = false;
+
+  recognition.onstart = () => {
+    $("voice").classList.add("active");
+    $("subtitle").textContent = "Listening... speak now.";
+  };
+  recognition.onend = () => {
+    $("voice").classList.remove("active");
+    if (!busy) $("subtitle").textContent = "Ask anything. Imagine everything.";
+  };
+  recognition.onresult = event => {
+    input.value += (input.value ? " " : "") +
+      event.results[0][0].transcript;
+    input.dispatchEvent(new Event("input"));
+    input.focus();
+  };
+  recognition.onerror = () => notify("Voice input unavailable. Check microphone permission.");
 }
-$('send').onclick=ask;
-prompt.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();ask()}});
-prompt.addEventListener('input',()=>{prompt.style.height='auto';prompt.style.height=Math.min(prompt.scrollHeight,130)+'px'});
-$('speak').onclick=()=>{speakAnswers=!speakAnswers;$('speak').textContent=speakAnswers?'🔊 On':'🔊';if(!speakAnswers&&'speechSynthesis'in window)speechSynthesis.cancel()};
-const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-$('mic').onclick=()=>{
- if(!SR){alert('Voice input is not supported in this browser. Try Chrome.');return}
- const r=new SR();r.lang='en-IN';r.interimResults=false;
- r.onstart=()=>status('Listening...','#b2a4ff');
- r.onresult=e=>{prompt.value+=(prompt.value?' ':'')+e.results[0][0].transcript;prompt.dispatchEvent(new Event('input'))};
- r.onerror=()=>status('Voice unavailable','#ffbd78');
- r.onend=()=>{if(!busy)status('Ready')};r.start();
-};
-})();
+
+$("voice").addEventListener("click", () => {
+  if (!recognition) {
+    notify("Voice input is not supported here. Try Chrome on Android.");
+    return;
+  }
+  try {
+    recognition.start();
+  } catch {
+    notify("Voice input is already active. Try again shortly.");
+  }
+});
 </script>
 </body>
-   </html>
-  
+ </html>
+ 
